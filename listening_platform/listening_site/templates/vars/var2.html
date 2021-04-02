@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listening task</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      header {
+        background: #4169E1;
+        height: 200px;
+      }
+      h1 {
+        color: white;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 300%;
+        text-align: center;
+        line-height: 200px;
+        margin: 0;
+      }
+      article {
+        padding: 10px;
+        margin: 10px;
+        flex: 1;
+      }
+      section1{
+        display: flex;
+        flex-flow: row wrap;
+      }
+      section2{
+        display: flex;
+        flex-flow: column wrap;
+      }
+
+	input.button {
+	  color: #fff;
+	  text-decoration: none;
+	  user-select: none;
+	  background: #4169E1;
+	  padding: .7em 1.5em;
+	  outline: none;
+		}
+		input.button:hover { background: rgb(232,95,76); }
+		input.button:active { background: rgb(152,15,0); }
+
+	button.button {
+	  color: #fff;
+	  text-decoration: none;
+	  user-select: none;
+	  background: #4169E1;
+	  padding: .7em 1.5em;
+	  outline: none;
+		}
+		input.button:hover { background: rgb(232,95,76); }
+		input.button:active { background: rgb(152,15,0); }
+
+	button.audio {
+	  color: #fff;
+	  text-decoration: none;
+	  user-select: none;
+	  background: #4169E1;
+	  padding: .7em 1.5em;
+	  outline: none;
+		}
+		input.button:hover { background: rgb(232,95,76); }
+		input.button:active { background: rgb(152,15,0); }
+}
+HTML CSSResult Skip Results Iframe
+EDIT ON
+.spacer {
+  height: 40vh;
+}
+
+.wrap {
+  display: flex;
+  /*align-items: flex-start;*/
+}
+
+.wrap > div {
+  flex: 1;
+  text-align: center;
+}
+
+/*.wrap > div:nth-child(1) {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding-top: 100px;
+}*/
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  align: right;
+  padding: 0px 50px;
+  font: 36pt sans-serif;
+}
+
+
+
+Resources1×0.5×0.25×Rerun
+
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Listening task</h1>
+    </header>
+    <section1 align='center'>
+        <article>
+        <h2>Instruction</h2>
+        <p>1. Please read all the instructions before pressing START. After you have pressed START, the stopwatch goes on right to the end of the four parts. If you refresh the page, you will NOT be allowed to do the test again! There is NO way to stop the recording for a pause! </p>
+		<p>2. You are going to do four parts of the listening test similar to that in IELTS. There will be a PLAY button in each of the four sections. The time for all four sections is 35 minutes, and each of the four sections lasts from 7 to 8 minutes. </p>
+		<p>3. You can press any of the four PLAY buttons ONLY ONCE. Pressing the PLAY button of the next section while you are still listening to the current recording DOES NOT stop the recording of the latter, so you will hear the two recordings simultaneously. </p>
+		<p>4. If you are in doubt, don't give options of any answer - this will be considered wrong anyway - just choose one that you see as a more likely option. </p>
+		<p>5. Make sure you don't spend more than 2 minutes completing your answers in each of the four sections, otherwise you will not have enough time to finish the whole test. </p>
+		<p>6. Press SUBMIT when all answers are provided in the boxes for them.</p>
+		<p>7. After you are finished, you will see your results in all sections.</p>
+	   </article>
+
+<script type="text/javascript">
+    function starttimer()
+    {
+        document.getElementById("start").click(); // Simulates button click
+    }
+</script>
+
+
+
+
+
+
+
+    </section1>
+<p id='timer' class='sticky' align='right'>
+<span id="time"></span>
+  <button id="start" class="button">Start</button></p>
+
+
+<script>
+  var newDate,
+    intervalId;
+if (localStorage["timer"]) {
+  newDate = new Date(localStorage["timer"]);
+  timer(); // Инициализация текста в элементах.
+  intervalId = setInterval(timer, 1000);
+}
+document.querySelector("#start").onclick = onStart;
+
+function onStart() {
+  document.getElementById("form").hidden = false
+  newDate = Date.now() + 40 * 60000; // Таймер на 60 минут
+  timer(); // Инициализация текста в элементах.
+  if (!intervalId) intervalId = setInterval(timer, 1000);
+  localStorage["timer"] = new Date(newDate).toISOString();
+}
+
+function timer() {
+  var now = Date.now(),
+    rest = newDate >= now ? Math.round((newDate - now) / 1000) * 1000 : 0,
+    s = "0";
+  if (!rest) {
+    clearInterval(intervalId);
+    intervalId = null;
+    localStorage.removeItem("timer");
+  } else {
+    var rest2 = rest % 3600000;
+    let hh = (rest - rest2) / 3600000;
+    rest = rest2;
+
+    rest2 = rest % 60000;
+    let mm = (rest - rest2) / 60000;
+    rest = rest2;
+
+    rest2 = rest % 1000;
+    let ss = (rest - rest2) / 1000;
+    let ms = rest2;
+
+    s = (mm < 10 ? "0" : "") + mm + ":" +
+      (ss < 10 ? "0" : "") + ss;
+  }
+
+  if (s == 0) {
+	document.getElementById('button_submit').click();
+	}
+
+
+  document.querySelector("#time").textContent = s;
+  document.querySelector("#start").style.display = 'none';
+
+}
+</script>
+
+
+
+
+
+
+	<form id="form" hidden = "true" method= "POST">
+		{% csrf_token %}
+    <section2>
+        <article>
+            <h2>Student information</h2>
+			
+            <label for="id_group">Name and Surname: </label>
+			<select id="id_fio" name="fio">
+			<option value="Андрушко Тарас">Андрушко Тарас</option>
+			<option value="Бакланов Алексей">Бакланов Алексей</option>
+			<option value="Бутенко Зоя">Бутенко Зоя</option>
+			<option value="Баркова Любовь">Баркова Любовь</option>
+			<option value="Березовская Александра">Березовская Александра</option>
+			<option value="Бирюкова Полина">Бирюкова Полина</option>
+			<option value="Будилова Зинаида">Будилова Зинаида</option>
+			<option value="Вакурова Елизавета">Вакурова Елизавета</option>
+			<option value="Валиева Афина">Валиева Афина</option>
+			<option value="Васильева Мария">Васильева Мария</option>
+			<option value="Володина Екатерина">Володина Екатерина</option>
+			<option value="Гилемханова Диана">Гилемханова Диана</option>
+			<option value="Голева Диана">Голева Диана</option>
+			<option value="Горшкова Юлия">Горшкова Юлия</option>
+			<option value="Гребнева Валерия">Гребнева Валерия</option>
+			<option value="Гринберг Лидия">Гринберг Лидия</option>
+			<option value="Джубаева Нелля">Джубаева Нелля</option>
+			<option value="Донгарова Ксения">Донгарова Ксения</option>
+			<option value="Дорохова Нина">Дорохова Нина</option>
+			<option value="Дятлов Игорь">Дятлов Игорь</option>
+			<option value="Зайцева Дарья">Зайцева Дарья</option>
+			<option value="Заливина Екатерина">Заливина Екатерина</option>
+			<option value="Замбржицкая Мария">Замбржицкая Мария</option>
+			<option value="Зыкова Вероника">Зыкова Вероника</option>
+			<option value="Казюлина Марина">Казюлина Марина</option>
+			<option value="Козлова Полина">Козлова Полина</option>
+			<option value="Короткова Юлия">Короткова Юлия</option>
+			<option value="Кузенкова Ольга">Кузенкова Ольга</option>
+			<option value="Кукушкина Мария">Кукушкина Мария</option>
+			<option value="Лапшина Ксения">Лапшина Ксения</option>
+			<option value="Леонова Полина">Леонова Полина</option>
+			<option value="Лыкова Ксения">Лыкова Ксения</option>
+			<option value="Макаров Юрий">Макаров Юрий</option>
+			<option value="Макарова Полина">Макарова Полина</option>
+			<option value="Мартынова Анна">Мартынова Анна</option>
+			<option value="Матюхина Екатерина">Матюхина Екатерина</option>
+			<option value="Маханова Надежда">Маханова Надежда</option>
+			<option value="Машковцева Полина">Машковцева Полина</option>
+			<option value="Мицюк Дарья">Мицюк Дарья</option>
+			<option value="Мордасов Матвей">Мордасов Матвей</option>
+			<option value="Мочульский Денис">Мочульский Денис</option>
+			<option value="Перевощикова Татьяна">Перевощикова Татьяна</option>
+			<option value="Пискунова Александра">Пискунова Александра</option>
+			<option value="Проволоцкая Ирина">Проволоцкая Ирина</option>
+			<option value="Раскинд Яков">Раскинд Яков</option>
+			<option value="Ревенко Дарья">Ревенко Дарья</option>
+			<option value="Родина Мария">Родина Мария</option>
+			<option value="Северина Ксения">Северина Ксения</option>
+			<option value="Седловская Александра">Седловская Александра</option>
+			<option value="Серова Александра">Серова Александра</option>
+			<option value="Смирнова Анна">Смирнова Анна</option>
+			<option value="Сушко Яна">Сушко Яна</option>
+			<option value="Файзуллина Адель">Файзуллина Адель</option>
+			<option value="Федоров Данила">Федоров Данила</option>
+			<option value="Феклина Елизавета">Феклина Елизавета</option>
+			<option value="Феоктистова Эмма">Феоктистова Эмма</option>
+			<option value="Хребтовская Седа">Хребтовская Седа</option>
+			<option value="Худина Янина">Худина Янина</option>
+			<option value="Цегоева Оксана">Цегоева Оксана</option>
+			<option value="Чевелева Анастасия">Чевелева Анастасия</option>
+			<option value="Черноморченко Полина">Черноморченко Полина</option>
+			<option value="Чубарова Любовь">Чубарова Любовь</option>
+			<option value="Шикунова Ксения">Шикунова Ксения</option>
+			<option value="Щурова Елизавета">Щурова Елизавета</option>
+			</select><br><br>
+			
+            <label for="id_group">Group: </label>
+			<input type="text" id="id_group" name="group"><br><br>
+        </article>
+        </article>
+    </section2>
+	<section2>
+		<article>
+			<h2>Task 1</h2>
+			{% load static %}
+			<div id='hide'>
+			 <audio id="player" src="{% static 'vars/exams_ielts_mc_pt05.mp3' %}"></audio>
+
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+			<h2 class="mb-4 mt-3">Questions 1-4</h2>
+			<p class="reading-description font-italic"><i>Complete the form below, using <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</i></p>
+			<div style="border:2px solid #555; box-shadow:3px 3px 5px #999; width: 450px; text-align:left;  margin:20px; padding:20px;">
+				<h4 align='center'><big>Dreamtime travel agency</big></h4><p align='center'><small>Tour information</small></p><br>
+				<p>Example:</p>
+				<strong>Holiday name: </strong><u>Motor Insurance</u><br><br><br>
+				<strong>Holiday length:</strong> 2 days <br><br>
+				<strong>Type of transportation:</strong><b> 1. </b><input type="text" id="id_ans1" name="ans1"><br><br>
+				<strong>Maximum group size: </strong><b>2. </b><input type="text" id="id_ans2" name="ans2"><br><br>
+				<strong>Next tour date: </strong><b>3. </b><input type="text" id="id_ans3" name="ans3"><br><br><span data-answer='CZ8809'></span>
+				<strong>Hotel name: </strong><b>4. </b><input type="text" id="id_ans4" name="ans4"><br><br><span data-answer='12th September / 12.09'></span>
+			</div>
+			<h2 class="mb-4 mt-5">Questions 5 and 6</h2>
+			<p class="reading-description font-italic">Which <strong>TWO</strong> things are included in the price of the tour?</p>
+			<div class="mchq" data-answer="B,D" data-temp="chkg">
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck1" value="A">
+					<label class="custom-control-label" for="customCheck1"><span><b>A. </b></span>fishing trip</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck2" name="ans5" value="B">
+					<label class="custom-control-label" for="customCheck2"><span><b>B. </b></span>guided bushwalk</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck3" value="C">
+					<label class="custom-control-label" for="customCheck3"><span><b>C. </b></span>reptile park entry</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck4" name="ans6" value="D">
+					<label class="custom-control-label" for="customCheck4"><span><b>D. </b></span>table tennis</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck5" value="E">
+					<label class="custom-control-label" for="customCheck5"><span><b>E. </b></span>tennis</label>
+				</div>
+			</div>
+			<h2 class="mb-4 mt-5">Questions 7-10 </h2>
+			<p class="reading-description font-italic">Complete the sentences below, using <strong>NO MORE THAN A WORD AND/OR A NUMBER</strong> for each answer.</p>
+			<div class="mb-4 mt-4" data-temp='editor'>
+				<p class="inline-question"><strong>7. </strong>The tour costs $ <input type="text" id="id_ans7" name="ans7">.</p>
+				<p class="inline-question"><strong>8. </strong>Bookings must be made no later than <input type="text" id="id_ans8" name="ans8"> days in advance.</p>
+				<p class="inline-question"><strong>9. </strong>A <input type="text" id="id_ans9" name="ans9"> deposit is required.</p>
+				<p class="inline-question"><strong>10. </strong>The customer's reference number is <input type="text" id="id_ans10" name="ans10">.</p>
+			</div>
+		</article>
+	</section2>
+	<section2>
+		<article>
+			<h2>Task 2</h2>
+			{% load static %}
+			<div id='hide'>
+			 <audio id="player2" src="{% static 'vars/exams_ielts_mc_pt06.mp3' %}"></audio>
+
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player2').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+			<h2 class="mb-4 mt-3">Questions 11-19</h2>
+			<p class="reading-description font-italic"><i>Complete the sentences below, using <strong>NO MORE THAN THREE WORDS</strong> for each answer.</i></p>
+			<table border="1px solid grey">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">
+						Brand of Cot</th>
+						<th scope="col">
+						Good Points</th>
+						<th scope="col">
+						Problems</th>
+						<th scope="col">
+						Verdict</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+						Baby Safe</td>
+						<td>Easy to <span data-answer='move around / move about'></span><b>11. </b><input type="text" id="id_ans11" name="ans11"></td>
+						<td>Did not have any <span data-answer='brakes'></span><b>12. </b><input type="text" id="id_ans12" name="ans12"><br />
+						<br />
+						Babies could trap their <span data-answer='fingers'></span><b>13. </b><input type="text" id="id_ans13" name="ans13"> in the side bar</td>
+						<td><span data-answer='satisfactory'></span><b>14. </b><input type="text" id="id_ans14" name="ans14"></td>
+					</tr>
+					<tr>
+						<td>Choice Cots</td>
+						<td>Easy to <span data-answer='put together / put it together'></span><b>15. </b><input type="text" id="id_ans15" name="ans15"></td>
+						<td>Side did not drop down<br />
+						<br />
+						Spaces between the bars were <span data-answer='too wide'></span><b>16. </b><input type="text" id="id_ans16" name="ans16">
+						</td>
+						<td><span data-answer='dangerous'></span><b>17. </b><input type="text" id="id_ans17" name="ans17"></td>
+					</tr>
+					<tr>
+						<td>Mother's Choice</td>
+						<td>Base of cot could be moved</td>
+						<td>Did not have any <span data-answer='wheels'></span><b>18. </b><input type="text" id="id_ans18" name="ans18"><br />
+						<br />Pictures could be removed easily</td>
+						<td><span data-answer='best / the best / best buy / the best buy / safe'></span><b>19. </b><input type="text" id="id_ans19" name="ans19"></td>
+					</tr>
+				</tbody>
+			</table></br>
+			<h2 class="mb-4 mt-5">Question 20</h2>
+			<p class="reading-description">Complete the notes below.</p>
+			<p class="reading-description font-italic">Write <strong>ONE WORD ONLY</strong> for the answer.</p>
+			<div class="mb-4 mt-4" data-temp='editor'>
+				<p class="inline-question"><strong>-</strong>Metal should not be rusted or bent.</p>
+				<p class="inline-question"><strong>-</strong>Edges of cot should not be <input type="text" id="id_ans20" name="ans20">.</p>
+			</div>
+		</article>
+	</section2>
+	<section2>
+		<article>
+			<h2>Task 3</h2>
+			{% load static %}
+			<div id='hide'>
+			 <audio id="player3" src="{% static 'vars/exams_ielts_mc_pt07.mp3' %}"></audio>
+
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player3').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+
+			<h2 class="mb-4 mt-3">Questions 21-23</h2>
+			<p class="reading-description">Choose the correct letter, <strong>A, B,</strong> or <strong>C</strong>.</p>
+
+			<div class="mchq" data-answer="B" data-temp="mcq">
+				<p class="inline-question"><strong>21. </strong>Andrew has worked at the hospital for</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__10" name="ans21" value="A" checked>
+					<label class="custom-control-label " for="customRadio__10"><b>A. </b>two years.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__11" name="ans21" value="B">
+					<label class="custom-control-label " for="customRadio__11"><b>B. </b>three years.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__12" name="ans21" value="C">
+					<label class="custom-control-label " for="customRadio__12"><b>C. </b>five years.</label>
+				</div>
+			</div>
+
+			<div class="mchq" data-answer="A" data-temp="mcq">
+				<p class="inline-question"><strong>22. </strong>During the course Andrew's employers will pay</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__20" name="ans22" value="A" checked>
+					<label class="custom-control-label " for="customRadio__20"><b>A. </b>his fees.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__21" name="ans22" value="B">
+					<label class="custom-control-label " for="customRadio__21"><b>B. </b>his living costs.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__22" name="ans22" value="C">
+					<label class="custom-control-label " for="customRadio__22"><b>C. </b>his salary.</label>
+				</div>
+			</div>
+
+			<div class="mchq" data-answer="C" data-temp="mcq">
+				<p class="inline-question"><strong>23. </strong>The part-time course lasts for</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__30" name="ans23" value="A" checked>
+					<label class="custom-control-label " for="customRadio__30"><b>A. </b>one whole year.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__31" name="ans23" value="B">
+					<label class="custom-control-label " for="customRadio__31"><b>B. </b>18 months.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__32" name="ans23" value="C">
+					<label class="custom-control-label " for="customRadio__32"><b>C. </b>two years.</label>
+				</div>
+			</div><br>
+			<h2 class="mb-4 mt-5">Questions 24-25</h2>
+			<p class="reading-description font-italic">Which <strong>TWO</strong> types of coursework are required <strong>each month</strong> on the part-time course</p>
+
+			<div class="mchq" data-answer="B,D" data-temp="chkg">
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck1" value="A">
+					<label class="custom-control-label" for="customCheck1"><span><b>A. </b></span>a case study.</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck2" name="ans24" value="B">
+					<label class="custom-control-label" for="customCheck2"><span><b>B. </b></span>an essay.</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck3" value="C">
+					<label class="custom-control-label" for="customCheck3"><span><b>C. </b></span>a survey.</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck4" name="ans25" value="D">
+					<label class="custom-control-label" for="customCheck4"><span><b>D. </b></span>a short report.</label>
+				</div>
+				<div class="custom-control custom-checkbox mchc">
+					<input type="checkbox" class="custom-control-input" id="customCheck5" value="E">
+					<label class="custom-control-label" for="customCheck5"><span><b>E. </b></span>a study diary.</label>
+				</div>
+			</div>
+
+			<h2 class="mb-4 mt-5">Questions 26-30</h2>
+			<p class="reading-description font-italic">Complete the summary below.</p>
+			<p class="reading-description font-italic">Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+
+			<div class="mb-4 mt-5" data-temp='editor'>
+				<h4 align="center">Modular Courses</h4>
+				<p class="sq">Students study <span data-answer='full-time'></span><b>26. </b><input type="text" id="id_ans26" name="ans26"> during each module. A module takes <span data-answer='a term / one term'></span><b>27. </b><input type="text" id="id_ans27" name="ans27"> and the work is very <span data-answer='intensive'></span><b>28. </b><input type="text" id="id_ans28" name="ans28"> To get a Diploma each student has to study <span data-answer='two modules / two terms / for two terms'></span><b>29. </b><input type="text" id="id_ans29" name="ans29"> and then work on <span data-answer='a topic / one topic'></span><b>30. </b><input type="text" id="id_ans30" name="ans30"> in depth.</p>
+			</div>
+		</article>
+	</section2>
+	<section2>
+		<article>
+			<h2>Task 4</h2>
+		    {% load static %}
+			<div id='hide'>
+			 <audio id="player4" src="{% static 'vars/exams_ielts_mc_pt08.mp3' %}"></audio>
+
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player4').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+
+			<h2 class="mb-4 mt-3">Questions 31-35</h2>
+			<p class="reading-description font-italic">Complete the sentences below.</p>
+			<p class="reading-description font-italic">Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+
+			<div class="mb-4 mt-4" data-temp='editor'>
+				<p class="inline-question"><strong>31. </strong>Bernard Shaw: "Men are supposed to understand <span data-answer='politics'></span><input type="text" id="id_ans31" name="ans31">, economics and finance".</p>
+				<p class="inline-question"><strong>32. </strong>However, women are more prepared to <span data-answer='learn'></span><input type="text" id="id_ans32" name="ans32"> about them.</p>
+				<p class="inline-question"><strong>33. </strong>Women tend to save for <span data-answer="children's education / their children's education"></span><input type="text" id="id_ans33" name="ans33"> and a house.</p>
+				<p class="inline-question"><strong>34. </strong>Men tend to save for <span data-answer='a car'></span><input type="text" id="id_ans34" name="ans34"> and for retirement.</p>
+				<p class="inline-question"><strong>35. </strong>Women who are left alone may have to pay for <span data-answer='nursing care'></span><input type="text" id="id_ans35" name="ans35"> when they are old.</p>
+			</div><br>
+
+			<h2 class="mb-4 mt-5">Questions 36-40</h2>
+			<p class="reading-description font-italic">Complete the summary below.</p>
+			<p class="reading-description font-italic">Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+
+			<div class="mb-4 mt-5" data-temp='editor'>
+				<h5 class="text-center">Saving for the future</h5>
+				<p class="sq">Research indicates that many women only think about their financial future when a <span id="s6" data-answer='crisis'></span><b>36. </b><input type="text" id="id_ans36" name="ans36"> occurs. This is the worst time to make decisions. It is best for women to start thinking about pensions when they are in their <span id="s7" data-answer='early twenties'></span><b>37. </b><input type="text" id="id_ans37" name="ans37">. A good way for women to develop their <span id="s8" data-answer='confidence'></span><b>38. </b><input type="text" id="id_ans38" name="ans38"> in dealing with financial affairs would be to attend classes in <span id="s9" data-answer='money management'></span><b>39. </b><input type="text" id="id_ans39" name="ans39">. When investing in stocks and shares, it is suggested that women should put a high proportion of their savings in <span id="s10" data-answer='low-risk investments'></span><b>40. </b><input type="text" id="id_ans40" name="ans40">. In such ways, women can have a comfortable, independent retirement.</p>
+			</div>
+		</article>
+	</section2>
+
+	<p align='center'><input id='button_submit' type='submit' value="Submit" class="button"></p>
+	</form>
+  </body>
+</html>
